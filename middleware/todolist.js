@@ -5,7 +5,7 @@ export default defineNuxtPlugin(async () => {
   const loading = useLoading();
   const todoList = useTodoList();
   const config = useRuntimeConfig();
-
+  
   try {
     loading.value = true;
     setTimeout(async () => {

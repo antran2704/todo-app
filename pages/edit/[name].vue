@@ -49,7 +49,7 @@ handleGetItem()
 
 const handleDelete = async () => {
     loading.value = true
-    await axios.post(`${config.url}/todolist/${infor.value._id}`, { index: Number(index) })
+    await axios.post(`https://todo-app-nuxt3.herokuapp.com/todolist/${infor.value._id}`, { index: Number(index) })
     navigateTo("/")
     loading.value = false
 }
@@ -57,7 +57,7 @@ const handleDelete = async () => {
 const handleChangeContentItem = async () => {
     loading.value = true
     try {
-        await axios.put(`${config.url}/todolist/edit/${infor.value._id}`,
+        await axios.put(`https://todo-app-nuxt3.herokuapp.com/todolist/edit/${infor.value._id}`,
             {
                 index: Number(index),
                 data: { ...infor.value, nameTodo: name.value, slug: name.value.split(" ").join("-") }

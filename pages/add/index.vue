@@ -33,7 +33,7 @@ const loading = useLoading()
 const isOverlay = useOverlay()
 
 const handleGetTodoList = async () => {
-    const result = await axios.get(`${config.url}/todolist`)
+    const result = await axios.get(`https://todo-app-nuxt3.herokuapp.com/todolist`)
     todoList.value = result.data
 }
 
@@ -52,7 +52,7 @@ const getNameValue = async (e) => {
         })
 
         if (item) {
-            await axios.post(`${config.url}/todolist/add/${item._id}`,
+            await axios.post(`https://todo-app-nuxt3.herokuapp.com/todolist/add/${item._id}`,
                 {
                     nameTodo: nameValue.value,
                     type: selectValue.value,
@@ -61,7 +61,7 @@ const getNameValue = async (e) => {
                 }
             )
         } else {
-            await axios.post(`${config.url}/todolist/add`,
+            await axios.post(`https://todo-app-nuxt3.herokuapp.com/todolist/add`,
                 {
                     date: dateValue.value,
                     data: [

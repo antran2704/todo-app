@@ -19,4 +19,7 @@ export default defineNuxtConfig({
   },
   css: ["@/assets/css/main.scss"],
   modules: ["@nuxtjs/tailwindcss"],
+  publicRuntimeConfig: {
+    url: process.env.PUBLIC_URL,
+  },
 });

@@ -29,6 +29,8 @@ import axios from 'axios';
 import images from '~/assets/images';
 import { useNameTodo, useLoading } from '~/composables/state';
 
+const config = useRuntimeConfig()
+
 const name = useNameTodo()
 const loading = useLoading()
 
@@ -38,7 +40,7 @@ const index = process.client && new URLSearchParams(document.location.search).ge
 
 const handleGetItem = async () => {
     loading.value = true
-    const result = await axios.get(`http://localhost:3001/todolist/edit?id=${params}`)
+    const result = await axios.get(`${config.url}/todolist/edit?id=${params}`)
     infor.value = result.data
     name.value = infor.value.nameTodo
     loading.value = false
@@ -47,7 +49,7 @@ handleGetItem()
 
 const handleDelete = async () => {
     loading.value = true
-    await axios.post(`http://localhost:3001/todolist/${infor.value._id}`, { index: Number(index) })
+    await axios.post(`${config.url}/todolist/${infor.value._id}`, { index: Number(index) })
     navigateTo("/")
     loading.value = false
 }
@@ -55,7 +57,7 @@ const handleDelete = async () => {
 const handleChangeContentItem = async () => {
     loading.value = true
     try {
-        await axios.put(`http://localhost:3001/todolist/edit/${infor.value._id}`,
+        await axios.put(`${config.url}/todolist/edit/${infor.value._id}`,
             {
                 index: Number(index),
                 data: { ...infor.value, nameTodo: name.value, slug: name.value.split(" ").join("-") }

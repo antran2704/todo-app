@@ -39,20 +39,21 @@
 </template>
 
 <script setup>
-import { useTodoList, useLoading, useOverlay } from '~/composables/state';
+import { useTodoList, useOverlay } from '~/composables/state';
 import images from '~/assets/images';
 import { format } from 'date-fns'
 import axios from "axios"
 
 const todoList = useTodoList()
 const isOverlay = useOverlay()
-
+const config = useRuntimeConfig()
+  
 const handleGetIndexItem = (item, index) => {
    navigateTo(`/edit/${item.data[index].nameTodo}?id=${item.data[index]._id}&index=${index}`)
 }
 
 const handleDeleteItem = async (idItem, childrenIndex) => {
-   await axios.post(`http://localhost:3001/todolist/${idItem}`, { index: childrenIndex })
+   await axios.post(`${config.url}/todolist/${idItem}`, { index: childrenIndex })
    location.reload()
 }
 

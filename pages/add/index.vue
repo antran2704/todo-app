@@ -23,6 +23,7 @@ import Input from '~/components/Input.vue';
 import images from '~/assets/images/index';
 import axios from "axios"
 import { useTodoList, useNameTodo, useSelect, useDate, useLoading, useOverlay } from "~/composables/state"
+const config = useRuntimeConfig()
 
 const todoList = useTodoList()
 const nameValue = useNameTodo()
@@ -32,7 +33,7 @@ const loading = useLoading()
 const isOverlay = useOverlay()
 
 const handleGetTodoList = async () => {
-    const result = await axios.get("http://localhost:3001/todolist")
+    const result = await axios.get(`${config.url}/todolist`)
     todoList.value = result.data
 }
 
@@ -51,7 +52,7 @@ const getNameValue = async (e) => {
         })
 
         if (item) {
-            await axios.post(`http://localhost:3001/todolist/add/${item._id}`,
+            await axios.post(`${config.url}/todolist/add/${item._id}`,
                 {
                     nameTodo: nameValue.value,
                     type: selectValue.value,
@@ -60,7 +61,7 @@ const getNameValue = async (e) => {
                 }
             )
         } else {
-            await axios.post(`http://localhost:3001/todolist/add`,
+            await axios.post(`${config.url}/todolist/add`,
                 {
                     date: dateValue.value,
                     data: [

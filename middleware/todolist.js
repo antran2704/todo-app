@@ -4,10 +4,12 @@ import { useLoading, useTodoList } from "~/composables/state";
 export default defineNuxtPlugin(async () => {
   const loading = useLoading();
   const todoList = useTodoList();
+  const config = useRuntimeConfig();
+
   try {
     loading.value = true;
     setTimeout(async () => {
-      const result = await axios.get("http://localhost:3001/todolist");
+      const result = await axios.get(`${config.url}/todolist`);
       todoList.value = result.data;
       loading.value = false;
     }, 1400);

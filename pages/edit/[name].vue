@@ -40,7 +40,7 @@ const index = process.client && new URLSearchParams(document.location.search).ge
 
 const handleGetItem = async () => {
     loading.value = true
-    const result = await axios.get(`${config.url}/todolist/edit?id=${params}`)
+    const result = await axios.get(`https://todo-app-nuxt3.herokuapp.com/todolist/edit?id=${params}`)
     infor.value = result.data
     name.value = infor.value.nameTodo
     loading.value = false

@@ -54,7 +54,7 @@ const handleGetIndexItem = (item, index) => {
 }
 
 const handleDeleteItem = async (idItem, childrenIndex) => {
-   await axios.post(`${config.public.url}/todolist/${idItem}`, { index: childrenIndex })
+   await axios.post(`${config.public.public.url}/todolist/${idItem}`, { index: childrenIndex })
    location.reload()
 }
 

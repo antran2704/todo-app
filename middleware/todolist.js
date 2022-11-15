@@ -9,7 +9,7 @@ export default defineNuxtPlugin(async () => {
   try {
     loading.value = true;
     setTimeout(async () => {
-      const result = await axios.get(`${config.public.url}/todolist`);
+      const result = await axios.get(`${config.public.public.url}/todolist`);
       todoList.value = result.data;
       loading.value = false;
     }, 800);

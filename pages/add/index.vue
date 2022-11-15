@@ -29,11 +29,11 @@ const todoList = useTodoList()
 const nameValue = useNameTodo()
 const selectValue = useSelect()
 const dateValue = useDate()
-const loading = useLoading()
+ const loading = useLoading()
 const isOverlay = useOverlay()
 
 const handleGetTodoList = async () => {
-    const result = await axios.get(`${config.public.url}/todolist`)
+    const result = await axios.get(`${config.public.public.url}/todolist`)
     todoList.value = result.data
 }
 
@@ -51,7 +51,7 @@ const getNameValue = async () => {
         })
 
         if (item) {
-            await axios.post(`${config.public.url}/todolist/add/${item._id}`,
+            await axios.post(`${config.public.public.url}/todolist/add/${item._id}`,
                 {
                     nameTodo: nameValue.value,
                     type: selectValue.value,
@@ -60,7 +60,7 @@ const getNameValue = async () => {
                 }
             )
         } else {
-            await axios.post(`${config.public.url}/todolist/add`,
+            await axios.post(`${config.public.public.url}/todolist/add`,
                 {
                     date: dateValue.value,
                     data: [

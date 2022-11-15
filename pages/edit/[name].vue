@@ -40,7 +40,7 @@ const index = process.client && new URLSearchParams(document.location.search).ge
 
 const handleGetItem = async () => {
     loading.value = true
-    const result = await axios.get(`https://todo-app-nuxt3.herokuapp.com/todolist/edit?id=${params}`)
+    const result = await axios.get(`${config.public.url}/todolist/edit?id=${params}`)
     infor.value = result.data
     name.value = infor.value.nameTodo
     loading.value = false
@@ -49,7 +49,7 @@ handleGetItem()
 
 const handleDelete = async () => {
     loading.value = true
-    await axios.post(`https://todo-app-nuxt3.herokuapp.com/todolist/${infor.value._id}`, { index: Number(index) })
+    await axios.post(`${config.public.url}/todolist/${infor.value._id}`, { index: Number(index) })
     navigateTo("/")
     loading.value = false
 }
@@ -57,7 +57,7 @@ const handleDelete = async () => {
 const handleChangeContentItem = async () => {
     loading.value = true
     try {
-        await axios.put(`https://todo-app-nuxt3.herokuapp.com/todolist/edit/${infor.value._id}`,
+        await axios.put(`${config.public.url}/todolist/edit/${infor.value._id}`,
             {
                 index: Number(index),
                 data: { ...infor.value, nameTodo: name.value, slug: name.value.split(" ").join("-") }

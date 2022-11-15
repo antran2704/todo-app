@@ -5,10 +5,10 @@
          <h1 class="text-[24px] font-[600] text-[#1E1E1E] text-center">Ghi chú</h1>
          <h2 class="text-[20px] font-[400] text-[#1E1E1E] py-[12px]">Tuần này</h2>
       </div>
-      <div class="flex-1 flex flex-col gap-5 overflow-auto list__item">
-         <div v-for="(list, indexParent) in todoList">
+      <div class="flex-1 flex flex-col mb-5 gap-5 overflow-auto list__item">
+         <div v-for="list in todoList">
             <span v-if="list.data.length > 0" class="text-[16px] text-[#6C4AB6] font-[600] px-5">
-               {{ format(new Date(list.date.split("-").join(",")), 'dd-MM-yyyy') }}
+               {{ format(new Date(list.date), 'dd-MM-yyyy') }}
             </span>
             <ul class="w-full px-5 py-2 flex flex-col justify-start gap-3">
                <li v-for="(todo, indexChildren) in list.data" :key="indexChildren"
@@ -31,10 +31,10 @@
             </ul>
          </div>
       </div>
-      <NuxtLink @click="handleOverlay"
-         class="relative ml-auto w-[60px] h-[60px] flex items-center justify-center p-4 mx-5 my-4 bg-[#FF5959] rounded-full shadow-sm shadow-[#00000040] cursor-pointer z-[1]">
+      <button @click="handleOverlay"
+         class="relative ml-auto w-[60px] h-[60px] flex items-center justify-center p-4 mx-5 bg-[#FF5959] rounded-full shadow-sm shadow-[#00000040] cursor-pointer z-[10]">
          <img class="w-full h-full" :src="images.addIcon" alt="image">
-      </NuxtLink>
+      </button>
    </div>
 </template>
 
@@ -46,14 +46,15 @@ import axios from "axios"
 
 const todoList = useTodoList()
 const isOverlay = useOverlay()
+
 const config = useRuntimeConfig()
-  
+
 const handleGetIndexItem = (item, index) => {
    navigateTo(`/edit/${item.data[index].nameTodo}?id=${item.data[index]._id}&index=${index}`)
 }
 
 const handleDeleteItem = async (idItem, childrenIndex) => {
-   await axios.post(`https://todo-app-nuxt3.herokuapp.com/todolist/${idItem}`, { index: childrenIndex })
+   await axios.post(`${config.public.url}/todolist/${idItem}`, { index: childrenIndex })
    location.reload()
 }
 
@@ -68,7 +69,7 @@ const handleOverlay = () => {
 }
 
 definePageMeta({
-   middleware: ["todolist"],
+   middleware: "todolist",
 })
 </script>
 

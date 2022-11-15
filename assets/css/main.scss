@@ -6,6 +6,9 @@
 body {
   font-family: "Poppins", sans-serif;
   background-color: #dadada;
+  user-select: none;
+  overflow-y: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -13,7 +16,7 @@ body {
     max-width: 400px;
     height: 100vh;
     max-height: 100vh;
-    margin: 10px auto;
+    margin: 0 auto;
 }
 
 input,select,button {
@@ -29,4 +32,8 @@ input,select,button {
   &:hover {
     box-shadow: 0px 0px 6px rgba(1,1,1,0.4);
   }
+}
+
+.input {
+  -webkit-appearance: none;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full">
+  <div class="relative w-full max-h-full overflow-hidden">
     <div class="container relative flex items-center justify-start">
       <NuxtPage />
       <div class="create" :class="{ 'active': isOverlay }"></div>

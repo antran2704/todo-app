@@ -1,12 +1,10 @@
-import axios from "axios";
-
 const useTodoList = () => {
-  return useState("todoList", () => [])
+  return useState("todoList", async () => []);
 };
 
 const useOverlay = () => {
-  return useState("overlay", () => false)
-}
+  return useState("overlay", () => false);
+};
 
 const useLoading = () => {
   return useState("loading", () => false);
@@ -24,11 +22,4 @@ const useDate = () => {
   return useState("date", () => "");
 };
 
-export {
-  useTodoList,
-  useNameTodo,
-  useSelect,
-  useDate,
-  useLoading,
-  useOverlay,
-};
+export { useTodoList, useNameTodo, useSelect, useDate, useLoading, useOverlay };

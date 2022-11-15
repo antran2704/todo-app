@@ -1,6 +1,6 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  target: 'static',
+  target: "static",
   head: {
     title: "Todo App",
     htmlAttrs: {
@@ -21,6 +21,8 @@ export default defineNuxtConfig({
   css: ["@/assets/css/main.scss"],
   modules: ["@nuxtjs/tailwindcss"],
   publicRuntimeConfig: {
-    url: process.env.PUBLIC_URL,
+    public: {
+      url: process.env.PUBLIC_URL
+    },
   },
 });

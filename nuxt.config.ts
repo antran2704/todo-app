@@ -22,7 +22,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss"],
   publicRuntimeConfig: {
     public: {
-      url: process.env.PUBLIC_URL
+      url: process.env.NUXT_PUBLIC_API_BASE
     },
   },
 });

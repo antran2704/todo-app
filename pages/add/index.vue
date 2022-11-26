@@ -22,25 +22,26 @@
 import Input from '~/components/Input.vue';
 import images from '~/assets/images/index';
 import axios from "axios"
-import { useTodoList, useNameTodo, useSelect, useDate, useLoading, useOverlay } from "~/composables/state"
+import { useTodoList, useNameTodo, useSelect, useDate, useLoading, useOverlay, useToast } from "~/composables/state"
+import { handleAddToast } from "~/helper/index"
 const config = useRuntimeConfig()
 
 const todoList = useTodoList()
 const nameValue = useNameTodo()
 const selectValue = useSelect()
 const dateValue = useDate()
- const loading = useLoading()
+const loading = useLoading()
 const isOverlay = useOverlay()
+const toasts = useToast();
+
+nameValue.value = ""
 
 const handleGetTodoList = async () => {
-    const result = await axios.get(`${config.public.public.url}/todolist`)
+    const result = await axios.get(`${config.public.url}/todolist`)
     todoList.value = result.data
 }
 
 handleGetTodoList()
-
-
-nameValue.value = ""
 
 const getNameValue = async () => {
     if (nameValue.value !== "" && selectValue.value !== "" && dateValue.value !== "") {
@@ -51,27 +52,35 @@ const getNameValue = async () => {
         })
 
         if (item) {
-            await axios.post(`${config.public.public.url}/todolist/add/${item._id}`,
-                {
-                    nameTodo: nameValue.value,
-                    type: selectValue.value,
-                    value: selectValue.value === "hight" ? "Cao" : selectValue.value === "low" ? "Thấp" : "Trung Bình",
-                    slug: nameValue.value.split(" ").join("-")
-                }
-            )
+            try {
+                await axios.post(`${config.public.url}/todolist/add/${item._id}`,
+                    {
+                        nameTodo: nameValue.value,
+                        type: selectValue.value,
+                        value: selectValue.value === "hight" ? "Cao" : selectValue.value === "low" ? "Thấp" : "Trung Bình",
+                        slug: nameValue.value.split(" ").join("-")
+                    }
+                )
+            } catch (error) {
+                handleAddToast(toasts, "danger", "Không thêm thành công")
+            }
         } else {
-            await axios.post(`${config.public.public.url}/todolist/add`,
-                {
-                    date: dateValue.value,
-                    data: [
-                        {
-                            nameTodo: nameValue.value,
-                            type: selectValue.value,
-                            value: selectValue.value === "hight" ? "Cao" : selectValue.value === "low" ? "Thấp" : "Trung Bình"
-                        }
-                    ]
-                }
-            )
+            try {
+                await axios.post(`${config.public.url}/todolist/add`,
+                    {
+                        date: dateValue.value,
+                        data: [
+                            {
+                                nameTodo: nameValue.value,
+                                type: selectValue.value,
+                                value: selectValue.value === "hight" ? "Cao" : selectValue.value === "low" ? "Thấp" : "Trung Bình"
+                            }
+                        ]
+                    }
+                )
+            } catch (error) {
+                handleAddToast(toasts, "danger", "Không thêm thành công")
+            }
         }
 
         nameValue.value = ""
@@ -79,6 +88,7 @@ const getNameValue = async () => {
         dateValue.value = ""
         navigateTo('/')
         loading.value = false
+        handleAddToast(toasts, "success", "Thêm thành công")
     }
 }
 

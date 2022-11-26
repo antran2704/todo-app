@@ -18,11 +18,15 @@ export default defineNuxtConfig({
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
-  css: ["@/assets/css/main.scss"],
+  css: [
+    "@/assets/css/main.scss",
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    "animate.css/animate.min.css",
+  ],
   modules: ["@nuxtjs/tailwindcss"],
-  publicRuntimeConfig: {
+  runtimeConfig: {
     public: {
-      url: process.env.NUXT_PUBLIC_API_BASE
+      url: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
 });

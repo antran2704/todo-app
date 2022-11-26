@@ -1,7 +1,15 @@
 <template>
    <div
-      class="relative bg-[#EFF5F5] pt-[60px] pb-[20px] w-full h-full flex flex-col rounded-lg shadow-sm shadow-[#00000040] z-[1]">
-      <div class="px-5">
+      class="relative bg-[#EFF5F5] pt-[30px] pb-[20px] w-full h-full flex flex-col rounded-lg shadow-sm shadow-[#00000040] z-[1]">
+      <div class="px-5 flex items-center justify-between">
+         <div>
+            <p class="text-[18px] font-[400] text-[#6C4AB6]">Welcome Back</p>
+            <h3 class="text-[24px] font-[600] text-[#6C4AB6] animate__animated animate__bounce">AnTran😊</h3>
+         </div>
+         <img class="w-[50px] h-[50px] rounded-full object-cover animate__animated animate__zoomIn"
+            src="~/assets/images/me.jpg" alt="">
+      </div>
+      <div class="px-5 pt-4">
          <h1 class="text-[24px] font-[600] text-[#1E1E1E] text-center">Ghi chú</h1>
          <h2 class="text-[20px] font-[400] text-[#1E1E1E] py-[12px]">Tuần này</h2>
       </div>
@@ -39,13 +47,17 @@
 </template>
 
 <script setup>
-import { useTodoList, useOverlay } from '~/composables/state';
+import { useTodoList, useOverlay, useToast, useLoading } from '~/composables/state';
 import images from '~/assets/images';
 import { format } from 'date-fns'
 import axios from "axios"
+import { handleAddToast } from "~/helper/index"
+
 
 const todoList = useTodoList()
 const isOverlay = useOverlay()
+const toasts = useToast()
+const loading = useLoading()
 
 const config = useRuntimeConfig()
 
@@ -54,8 +66,17 @@ const handleGetIndexItem = (item, index) => {
 }
 
 const handleDeleteItem = async (idItem, childrenIndex) => {
-   await axios.post(`${config.public.public.url}/todolist/${idItem}`, { index: childrenIndex })
-   location.reload()
+   loading.value = true;
+   try {
+      await axios.post(`${config.public.url}/todolist/${idItem}`, { index: childrenIndex })
+      const result = await axios.get(`${config.public.url}/todolist`);
+      todoList.value = result.data;
+      loading.value = false;
+      handleAddToast(toasts, "success", "Xóa thành công")
+   } catch (error) {
+      loading.value = false;
+      handleAddToast(toasts, "danger", "Xóa thất bại")
+   }
 }
 
 

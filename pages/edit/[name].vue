@@ -27,20 +27,22 @@
 <script setup>
 import axios from 'axios';
 import images from '~/assets/images';
-import { useNameTodo, useLoading } from '~/composables/state';
+import { useNameTodo, useLoading, useToast } from '~/composables/state';
+import { handleAddToast } from "~/helper/index"
 
 const config = useRuntimeConfig()
 
 const name = useNameTodo()
 const loading = useLoading()
+const toasts = useToast();
 
-const infor = useState(("infor", () => {}))
+const infor = useState(("infor", () => { }))
 const params = process.client && new URLSearchParams(document.location.search).get("id");
 const index = process.client && new URLSearchParams(document.location.search).get("index");
 
 const handleGetItem = async () => {
     loading.value = true
-    const result = await axios.get(`${config.public.public.url}/todolist/edit?id=${params}`)
+    const result = await axios.get(`${config.public.url}/todolist/edit?id=${params}`)
     infor.value = result.data
     name.value = infor.value.nameTodo
     loading.value = false
@@ -49,15 +51,20 @@ handleGetItem()
 
 const handleDelete = async () => {
     loading.value = true
-    await axios.post(`${config.public.public.url}/todolist/${infor.value._id}`, { index: Number(index) })
-    navigateTo("/")
-    loading.value = false
+    try {
+        await axios.post(`${config.public.url}/todolist/${infor.value._id}`, { index: Number(index) })
+        navigateTo("/")
+        loading.value = false
+        handleAddToast(toasts, "success", "Xóa thành công")
+    } catch (error) {
+        handleAddToast(toasts, "danger", "Xóa thất bại")
+    }
 }
 
 const handleChangeContentItem = async () => {
     loading.value = true
     try {
-        await axios.put(`${config.public.public.url}/todolist/edit/${infor.value._id}`,
+        await axios.put(`${config.public.url}/todolist/edit/${infor.value._id}`,
             {
                 index: Number(index),
                 data: { ...infor.value, nameTodo: name.value, slug: name.value.split(" ").join("-") }
@@ -66,8 +73,9 @@ const handleChangeContentItem = async () => {
         navigateTo("/")
         name.value = ""
         loading.value = false
+        handleAddToast(toasts, "success", "Thay đổi thành công")
     } catch (error) {
-        console.log(error, "false edit item")
+        handleAddToast(toasts, "success", "Thay đổi thất bại")
     }
 }
 

@@ -22,4 +22,22 @@ const useDate = () => {
   return useState("date", () => "");
 };
 
-export { useTodoList, useNameTodo, useSelect, useDate, useLoading, useOverlay };
+const useStorage = () =>
+  useState("storage", () => {
+    if (process.client) {
+      return localStorage.getItem("token");
+    }
+  });
+
+const useToast = () => useState("toasts", () => [])
+
+export {
+  useTodoList,
+  useNameTodo,
+  useSelect,
+  useDate,
+  useLoading,
+  useOverlay,
+  useStorage,
+  useToast
+};

@@ -24,7 +24,12 @@
                 <p class="login text-[14px] font-[500]" :class="{ 'error': isLogin }">{{ contentErrorPassword }}</p>
             </div>
         </div>
-        <button @click="handleCheckUser" class="login-btn px-[30px] py-[14px] mt-3 bg-[#F07F7F] text-white rounded-md">
+        <button v-if="isLoading" @click="handleCheckUser"
+            class="max-h-[52px] px-[30px] py-[14px] mt-3 bg-[#F07F7F] text-white rounded-md">
+            <font-awesome-icon :icon="faSpinner" class="login__loading text-[20px]" />
+        </button>
+        <button v-else @click="handleCheckUser"
+            class="login-btn px-[30px] py-[14px] mt-3 bg-[#F07F7F] text-white rounded-md">
             Sign in
         </button>
         <p class="text-[16px] text-center font-[600] w-[60%] my-8 mx-auto">
@@ -35,7 +40,8 @@
 </template>
 
 <script setup>
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons"
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const config = useRuntimeConfig();
@@ -45,6 +51,7 @@ let userPassword = useState("password", () => "")
 let isLogin = useState("isLogin", () => false)
 let isShowPassword = useState("showPassword", () => false)
 let contentErrorPassword = useState("contentError", () => "Password or user name was wrong!!!")
+const isLoading = useState("loadingLogin", () => false)
 
 const handleShowPassword = () => {
     const input = document.querySelector("input[name='password']")
@@ -68,6 +75,7 @@ const handleCheckPassword = (e) => {
 }
 
 const handleCheckUser = async () => {
+    isLoading.value = true;
     if (userName.value !== '' && userPassword.value !== '') {
         const name = userName.value;
         const password = userPassword.value;
@@ -79,6 +87,7 @@ const handleCheckUser = async () => {
         localStorage.setItem("token", token.data);
         if (token.data !== "user not exit") {
             navigateTo("/")
+            isLoading.value = false
         } else {
             userPassword.value.length < 6
                 ? contentErrorPassword.value = "Password must be than 6 characters"
@@ -87,6 +96,7 @@ const handleCheckUser = async () => {
             userPassword.value = ''
             isLogin.value = true;
             btn.classList.remove("active")
+            isLoading.value = false
         }
 
     }
@@ -117,6 +127,20 @@ const handleCheckUser = async () => {
         opacity: 1;
         cursor: pointer;
         pointer-events: all;
+    }
+}
+
+.login__loading {
+    animation: spinner linear 1s infinite;
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+
     }
 }
 

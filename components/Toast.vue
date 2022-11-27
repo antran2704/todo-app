@@ -1,5 +1,5 @@
 <template>
-    <div class="popup flex items-center justify-between w-full bg-white px-5 py-5 my-2 rounded-l-lg overflow-hidden"
+    <div class="popup flex items-center justify-between w-full bg-white px-5 py-5 my-2 rounded-l-lg overflow-x-hidden"
         :class="type">
         <div>
             <font-awesome-icon :icon="faCircleCheck" class="popup__icon text-[20px] text-[#71be34]" />
@@ -47,6 +47,7 @@ export default {
 
 <style lang="scss">
 .popup {
+    position: relative;
     transform: translateX(100%);
     animation: popupIn ease 0.6s forwards, popupOut ease 0.6s 4.6s forwards;
 

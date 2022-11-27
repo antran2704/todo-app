@@ -4,7 +4,7 @@
       <NuxtPage />
       <div class="create" :class="{ 'active': isOverlay }"></div>
     </div>
-    <div v-if="loading" class="fixed flex items-center justify-center top-0 bottom-0 left-0 right-0 bg-white z-10">
+    <div v-if="loading" class="fixed flex items-center justify-center top-0 bottom-0 left-0 right-0 bg-white z-20">
       <img class="w-[80px] h-[80px]" :src="images.loadIcon" />
     </div>
     <div id="toast" class="fixed top-10 right-0 w-[300px] z-10">
